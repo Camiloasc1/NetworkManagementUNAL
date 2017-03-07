@@ -1,0 +1,16 @@
+upstream opennms {
+    ip_hash;
+
+    server node1:8980;
+    server node2:8980;
+}
+
+server {
+    listen 8980;
+
+    location / {
+        proxy_pass http://opennms;
+        proxy_set_header Host $host:8980;
+    }
+}
+
