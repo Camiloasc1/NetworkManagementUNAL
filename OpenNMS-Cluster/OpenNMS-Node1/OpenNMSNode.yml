@@ -1,0 +1,33 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: setup hosts
+    copy: src=hosts dest=/etc/hosts
+
+#  - name: stop opennms
+#    service: name=opennms state=stopped
+
+  - name: stop and disable postgresql
+    service: name=postgresql state=stopped enabled=no
+
+  - name: move pristine opennms config
+    command: mv /usr/share/opennms/etc /usr/share/opennms/etc.pristine
+
+  - name: install nfs
+    apt: pkg=nfs-common state=installed
+
+  - name: create shared opennms config directory
+    file: path=/usr/share/opennms/etc state=directory mode=777 owner=root group=root
+
+  - name: mount shared opennms config directory
+    mount: name=/usr/share/opennms/etc src=db:/usr/share/opennms/etc fstype=nfs state=mounted
+
+#  - name: wait 30 seconds
+#    pause: seconds=30
+
+  - name: restart opennms
+    service: name=opennms state=restarted
+
+# PGPASSWORD=opennms psql opennms -h 127.0.0.1 -d opennms
+
