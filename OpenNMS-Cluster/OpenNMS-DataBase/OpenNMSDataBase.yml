@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: setup hosts
+    copy: src=hosts dest=/etc/hosts
+
+  - name: stop and disable opennms
+    service: name=opennms state=stopped enabled=no
+
+  - name: setup pg_hba.conf
+    copy: src=pg_hba.conf dest=/etc/postgresql/9.5/main/pg_hba.conf
+
+  - name: setup postgresql.conf
+    copy: src=postgresql.conf dest=/etc/postgresql/9.5/main/postgresql.conf
+
+  - name: restart postgresql
+    service: name=postgresql state=restarted
+
+  - name: install nfs server
+    apt: pkg=nfs-kernel-server state=installed
+
+  - name: setup nfs server
+    copy: src=exports dest=/etc/exports
+
+  - name: exportfs
+    command: exportfs -a
+
+  - name: restart nfs server
+    service: name=nfs-kernel-server state=restarted
+
+  - name: setup opennms datasource
+    copy: src=opennms-datasources.xml dest=/usr/share/opennms/etc/opennms-datasources.xml
+
