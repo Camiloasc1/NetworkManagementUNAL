@@ -1,2 +1,5 @@
+# Vagrant VMs
 .vagrant
+*.retry
+*.log
 

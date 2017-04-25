@@ -14,7 +14,10 @@
   - name: start and enable nginx
     service: name=nginx state=started enabled=yes
 
-  - name: setup nginx
+  - name: setup nginx (udp)
+    copy: src=nginx.conf dest=/etc/nginx/nginx.conf
+
+  - name: setup nginx (http)
     copy: src=default dest=/etc/nginx/sites-enabled/default
 
   - name: restart nginx
