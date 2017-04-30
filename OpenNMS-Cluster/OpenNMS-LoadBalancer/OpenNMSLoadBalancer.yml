@@ -22,3 +22,37 @@
 
   - name: restart nginx
     service: name=nginx state=restarted
+
+  - name: setup rsyslog
+    copy: src=rsyslog.conf dest=/etc/rsyslog.conf
+
+  - name: restart rsyslog
+    service: name=rsyslog state=restarted
+
+  - name: install tftp server
+    apt: pkg=tftpd-hpa state=installed
+
+  - name: start and enable tftp server
+    service: name=tftpd-hpa state=started enabled=yes
+
+  - name: setup tftp server
+    copy: src=tftpd-hpa dest=/etc/default/tftpd-hpa
+
+  - name: chown tftp server folder
+    file: path=/var/lib/tftpboot owner=tftp group=tftp state=directory recurse=yes
+
+  - name: restart tftp server
+    service: name=tftpd-hpa state=restarted
+
+  - name: install ntp server
+    apt: pkg=ntp state=installed
+
+  - name: start and enable ntp server
+    service: name=ntp state=started enabled=yes
+
+  - name: setup ntp server
+    copy: src=ntp.conf dest=/etc/ntp.conf
+
+  - name: restart ntp server
+    service: name=ntp state=restarted
+
