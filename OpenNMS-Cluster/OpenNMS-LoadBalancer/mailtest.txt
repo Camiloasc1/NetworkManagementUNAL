@@ -1,0 +1,11 @@
+
+MAIL=/home/admin/Maildir
+mail
+
+ehlo localhost
+mail from: admin@localhost
+rcpt to: admin@localhost
+data
+Subject: Test
+
+Test

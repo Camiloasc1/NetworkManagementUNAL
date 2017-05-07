@@ -56,3 +56,30 @@
   - name: restart ntp server
     service: name=ntp state=restarted
 
+  - name: install smtp server
+    apt: pkg=postfix state=installed
+
+  - name: start and enable smtp server
+    service: name=postfix state=started enabled=yes
+
+  - name: setup smtp server
+    copy: src=main.cf dest=/etc/postfix/main.cf
+
+  - name: install pop server
+    apt: pkg=courier-pop state=installed
+
+  - name: install imap server
+    apt: pkg=courier-imap state=installed
+
+  - name: start and enable imap server
+    service: name=courier-authdaemon state=started enabled=yes
+
+  - name: restart smtp server
+    service: name=postfix state=restarted
+
+  - name: install mail utils
+    apt: pkg=mailutils state=installed
+
+  - name: create admin user
+    user: name=admin group=admin password=$6$1Gk3BmOF$.UGfMtnocaq4eSlNfV1VT3r5gfjBmTYxLQabnpBW4gYEwYQHHp8puRtI7WeIgkXk53cmTtXoh3ekrjLQzCsjA/
+
