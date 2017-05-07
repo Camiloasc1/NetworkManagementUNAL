@@ -83,3 +83,6 @@
   - name: create admin user
     user: name=admin group=admin password=$6$1Gk3BmOF$.UGfMtnocaq4eSlNfV1VT3r5gfjBmTYxLQabnpBW4gYEwYQHHp8puRtI7WeIgkXk53cmTtXoh3ekrjLQzCsjA/
 
+  - name: send welcome mail
+    mail: from=admin@localhost to=admin@localhost subject='Welcome Admin!' body='Welcome to our NMS.'
+
